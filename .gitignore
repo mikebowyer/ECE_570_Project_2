@@ -1,0 +1,5 @@
+env/Lib/
+env/Scripts/
+env/ece570env/
+env/pyvenv.cfg
+env/share/
