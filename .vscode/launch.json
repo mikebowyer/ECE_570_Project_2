@@ -11,5 +11,16 @@
             "program": "${workspaceFolder}/latency1.py",
             "console": "integratedTerminal"
         }
+        {
+            "name": "Python: Project 2",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/proj2.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--port",
+                "4444"
+            ]
+        }
     ]
 }
