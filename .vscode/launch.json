@@ -10,16 +10,19 @@
             "request": "launch",
             "program": "${workspaceFolder}/latency1.py",
             "console": "integratedTerminal"
-        }
+        },
         {
             "name": "Python: Project 2",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/proj2.py",
             "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
             "args": [
                 "--port",
-                "4444"
+                "4444",
+                "--serv_address",
+                "23.235.207.63"
             ]
         }
     ]
