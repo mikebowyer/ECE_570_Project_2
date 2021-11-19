@@ -3,3 +3,6 @@ env/Scripts/
 env/ece570env/
 env/pyvenv.cfg
 env/share/
+**.pyc
+**__pycache__/
+**/__pycache__/

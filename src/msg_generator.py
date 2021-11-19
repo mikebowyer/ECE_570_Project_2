@@ -56,7 +56,7 @@ class MsgGenerator:
             newFrame.crc = self.calc_frame_crc(frame_wo_crc, [1, 1, 0, 0, 1])
 
             frames.append(newFrame)
-
+        return frames
 
 
             

@@ -5,10 +5,9 @@ class MsgSender:
     packet_header = [0, 1, 1, 1, 1, 1, 1, 0]
 
 
-    def __init__(self, server_address, server_port, message_to_send):
+    def __init__(self, server_address, server_port):
         # Save server information to member variables
         self.m_server_address = (server_address, server_port)
-        self.message_to_send = message_to_send
 
         # Setup Socket 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -16,10 +15,6 @@ class MsgSender:
 
         # Setup lists to save metrics into 
         self.latencies = []
-
-        # Send Message!
-        self.send_msg(self.message_to_send)
-
 
     def send_and_wait_for_packet(self, packet):
         print("Sending packet: " + str(packet))
@@ -38,8 +33,34 @@ class MsgSender:
         return packetRx
         
 
-    def send_msg(self, msg):
-        print("Sending msg: " + str(msg))
+    def send_msg(self, message_to_send):
+        packets_successfully_sent_count = 0
+        while packets_successfully_sent_count < message_to_send.total_number_of_frames:
+            # Grab frame to send
+            i = packets_successfully_sent_count
+            frame = message_to_send.frames[i]
+            
+            # Debug it a 
+            if True:
+                print("\n------ Frame Number " + str(i) + "------")
+                print("Header: " + str(frame.header))
+                print("Counter" + str(frame.counter))
+                print("Payload" + str(frame.payload))
+                print("CRC" + str(frame.crc))
+
+            try:
+                recieved_packet = self.send_and_wait_for_packet(frame.get_packet())
+            except:
+                # Messa
+                continue
+
+            crc_length = len(frame.crc)
+            if(recieved_packet[-crc_length:] == frame.crc):
+                packets_successfully_sent_count +=1
+            else: 
+                continue
+            
+
 
 
 

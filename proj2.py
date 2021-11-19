@@ -29,10 +29,9 @@ if __name__ == '__main__':
 
     # # Establish connection with server
     print("Connecting to Server: " + args.serv_address + ":" +str(int(args.port)))
-    # sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-    # message_sender = MsgSender(args.serv_address, args.port)
-    # message_sender.send_and_wait_for_packet()
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    message_sender = MsgSender(args.serv_address, args.port)
+    message_sender.send_msg(msg)
     
     # latency, sucess_or_fail = sendMessageToServer(socket, message, crc)
     # plot
