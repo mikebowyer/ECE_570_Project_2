@@ -50,13 +50,19 @@ class MsgSender:
                     print("Payload" + str(frame.payload))
                     print("CRC" + str(frame.crc))
 
+            sent_frame = frame.get_frame_bytes()
             try:
-                recieved_packet = self.send_and_wait_for_packet(frame.get_frame_bytes())
+                recieved_frame = self.send_and_wait_for_packet(sent_frame)
             except:
                 # Messa
                 continue
 
-            print("Recieved Packet Length: " + str(len()))
+            # print("Recieved Packet Length: " + str(len(recieved_frame)))
+
+            if (recieved_frame == sent_frame):
+                packets_successfully_sent_count +=1
+            else:
+                continue
 
             # crc_length = len(frame.crc)
             # if(recieved_packet[-crc_length:] == frame.crc):

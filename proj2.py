@@ -25,6 +25,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Create message to send
+    print("Creating message to send from following file: " + str(args.file_to_send))
     msg = MsgGenerator(args.file_to_send, packet_length_in_bits = 1024)
 
     # # Establish connection with server
