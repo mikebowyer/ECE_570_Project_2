@@ -5,6 +5,7 @@ from matplotlib.pyplot import figure, plot, grid
 import argparse
 from src.send_msg_over_socket import MsgSender
 from src.msg_generator import MsgGenerator
+import os.path
 
 def bt2int(bt):
     w = 2 ** np.array(range(8))[::-1]
@@ -16,6 +17,9 @@ def msg2bt(msg):
         for b in msg[i]:
             bt.append(int(b))
     return bt
+
+def extract_payload_from_bitstream(bitstream):
+        return bitstream[2:-1]
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--port', type=int, default=4444, help='The port of the server you would like to send a message to.')
@@ -33,6 +37,16 @@ if __name__ == '__main__':
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     message_sender = MsgSender(args.serv_address, args.port)
     message_sender.send_msg(msg)
+
+    bt = bytes()
+    for recievedFrame in message_sender.received_frames:
+        bt = bt + extract_payload_from_bitstream(recievedFrame)
+
+    ext = os.path.splitext(args.file_to_send)[-1]
+    print(ext)
+    with open("Output_file" + ext,'wb') as ofile:
+        ofile.write(bt) 
+
     
     # latency, sucess_or_fail = sendMessageToServer(socket, message, crc)
     # plot

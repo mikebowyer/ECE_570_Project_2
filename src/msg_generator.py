@@ -145,9 +145,9 @@ class MsgGenerator:
             # if(i < len(total_number_of_frames)-1):
             bitIndexEnd = ((i + 1) * self.packet_len)
             newFrame.payload = self.message_in_bits[bitIndexStart:bitIndexEnd]
-            if(len(newFrame.payload) != self.packet_len):
-                numZerosToPad = self.packet_len - len(newFrame.payload)
-                newFrame.payload = newFrame.payload + ([0] * numZerosToPad)
+            # if(len(newFrame.payload) != self.packet_len):
+            #     numZerosToPad = self.packet_len - len(newFrame.payload)
+            #     newFrame.payload = newFrame.payload + ([0] * numZerosToPad)
                 
             # else:
             #     # Calculate how many additional bits are needed in the last frame

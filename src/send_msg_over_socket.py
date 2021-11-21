@@ -14,6 +14,7 @@ class MsgSender:
         self.sock.settimeout(0.1)
 
         # Setup lists to save metrics into 
+        self.received_frames = []
         self.latencies = []
 
     def send_and_wait_for_packet(self, packet):
@@ -61,6 +62,7 @@ class MsgSender:
 
             if (recieved_frame == sent_frame):
                 packets_successfully_sent_count +=1
+                self.received_frames.append(recieved_frame)
             else:
                 continue
 
