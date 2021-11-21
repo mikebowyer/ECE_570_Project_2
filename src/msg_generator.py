@@ -63,13 +63,18 @@ class CRCCalculator:
     def left_strip_and_pad_remainder(self, remainder, div):
         # crc_length = len(div) - 1
         crc_length = 8
-        left_stipped_crc = self.leftStripBits(remainder)
+        stripped_padded_crc = [0] * crc_length
+        if (len(remainder) <= crc_length):
+            left_stipped_crc = self.leftStripBits(remainder)
 
-        # Create 0 padded list
-        num_pad_bits_needed = crc_length - len(left_stipped_crc)
-        padding_bits = [0] * num_pad_bits_needed
+            # Create 0 padded list
+            num_pad_bits_needed = crc_length - len(left_stipped_crc)
+            padding_bits = [0] * num_pad_bits_needed
 
-        stripped_padded_crc = padding_bits + left_stipped_crc
+            stripped_padded_crc = padding_bits + left_stipped_crc
+        else: #CRC is all zeros of large length
+            # Return CRC of all zeros
+            pass
         return stripped_padded_crc
 
 
