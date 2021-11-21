@@ -17,10 +17,10 @@ class MsgSender:
         self.latencies = []
 
     def send_and_wait_for_packet(self, packet):
-        print("Sending packet: " + str(packet))
+        # print("Sending packet: " + str(packet))
         # print('.............' + str(cnt) + '.............')
         send_time = time.time()
-        sent = self.sock.sendto(packet.encode(), self.server_address)
+        sent = self.sock.sendto(packet, self.m_server_address)
         
         try:
             packetRx, server = self.sock.recvfrom(1024)
@@ -43,22 +43,26 @@ class MsgSender:
             # Debug it a 
             if True:
                 print("\n------ Frame Number " + str(i) + "------")
-                print("Header: " + str(frame.header))
-                print("Counter" + str(frame.counter))
-                print("Payload" + str(frame.payload))
-                print("CRC" + str(frame.crc))
+                print("Sent Packet Length: " + str(len(frame.get_frame())))
+                if False:
+                    print("Header: " + str(frame.header))
+                    print("Counter" + str(frame.counter))
+                    print("Payload" + str(frame.payload))
+                    print("CRC" + str(frame.crc))
 
             try:
-                recieved_packet = self.send_and_wait_for_packet(frame.get_packet())
+                recieved_packet = self.send_and_wait_for_packet(frame.get_frame_bytes())
             except:
                 # Messa
                 continue
 
-            crc_length = len(frame.crc)
-            if(recieved_packet[-crc_length:] == frame.crc):
-                packets_successfully_sent_count +=1
-            else: 
-                continue
+            print("Recieved Packet Length: " + str(len()))
+
+            # crc_length = len(frame.crc)
+            # if(recieved_packet[-crc_length:] == frame.crc):
+            #     packets_successfully_sent_count +=1
+            # else: 
+            #     continue
             
 
 
