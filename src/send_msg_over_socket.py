@@ -42,20 +42,20 @@ class MsgSender:
             frame = message_to_send.frames[i]
             
             # Debug it a 
+            sent_frame = frame.get_frame_bytes()
             if True:
                 print("\n------ Frame Number " + str(i) + "------")
-                print("Sent Packet Length: " + str(len(frame.get_frame())))
+                print("Sent Packet Length: " + str(len(sent_frame)) + " bytes")
                 if False:
                     print("Header: " + str(frame.header))
                     print("Counter" + str(frame.counter))
                     print("Payload" + str(frame.payload))
                     print("CRC" + str(frame.crc))
 
-            sent_frame = frame.get_frame_bytes()
             try:
                 recieved_frame = self.send_and_wait_for_packet(sent_frame)
+                print("Recieved Packet Length: " + str(len(recieved_frame)))
             except:
-                # Messa
                 continue
 
             # print("Recieved Packet Length: " + str(len(recieved_frame)))

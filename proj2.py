@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     # Create message to send
     print("Creating message to send from following file: " + str(args.file_to_send))
-    msg = MsgGenerator(args.file_to_send, packet_length_in_bits = 1024)
+    msg = MsgGenerator(args.file_to_send, payload_length = 1024)
 
     # # Establish connection with server
     print("Connecting to Server: " + args.serv_address + ":" +str(int(args.port)))
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     message_sender.send_msg(msg)
 
     bt = bytes()
-    for recievedFrame in message_sender.received_frames:
+    for i, recievedFrame in enumerate(message_sender.received_frames):
         bt = bt + extract_payload_from_bitstream(recievedFrame)
 
     ext = os.path.splitext(args.file_to_send)[-1]

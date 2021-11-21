@@ -19,7 +19,7 @@ class Frame:
             raise Exception("The length of the frame is not divisable by 8 bits without a remainder. More padding necassary")
 
         frame_bytes_as_ints = []
-        for i in range(0, int(len(frame)/8)-1):
+        for i in range(0, int(len(frame)/8)):
             byte = frame[i * 8 : i * 8 + 8]
             byte_val = byte[0] * 128 + byte[1] * 64 + byte[2] * 32 + byte[3] * 16 +byte[4] * 8 + byte[5] * 4 + byte[6] * 2 + byte[7]
             frame_bytes_as_ints.append(byte_val)
@@ -108,10 +108,16 @@ class CRCCalculator:
 
 
 class MsgGenerator:
-    def __init__(self, filename, packet_length_in_bits):
+    def __init__(self, filename, payload_length):
         # Save passed variables into class variables
         self.filename = filename
-        self.packet_len = packet_length_in_bits
+        self.payload_length = payload_length
+        self.header = list([0, 1, 1, 1, 1, 1, 1, 0])
+        self.header_len = len(self.header)
+        self.counter_len = 8
+        self.crc_len = 8
+        self.packet_len = self.payload_length + self.header_len + self.counter_len + self.crc_len
+
 
         # Read in the desired file to transmit
         with open(self.filename,'rb') as file:
@@ -122,7 +128,7 @@ class MsgGenerator:
         self.message_in_bits = self.message_in_bytes_to_bits(self.message_in_bytes)
 
         # Calculate the number of frames needed to transmit this bad boi
-        self.total_number_of_frames = int(np.ceil(len(self.message_in_bits)/self.packet_len))
+        self.total_number_of_frames = int(np.ceil(len(self.message_in_bits)/(self.payload_length)))
         
         # Generate a list of frames to send
         self.crc_calculator = CRCCalculator()
@@ -137,13 +143,15 @@ class MsgGenerator:
             print("Generating Message for frame #: " + str(i))
             # Create new frame to add to list of frames
             newFrame = Frame()
-            newFrame.header = list([0, 1, 1, 1, 1, 1, 1, 0])
+            newFrame.header = self.header
             newFrame.counter = [int(b) for b in '{:08b}'.format(i)]
 
             # Stuff payload
-            bitIndexStart = i * self.packet_len
-            # if(i < len(total_number_of_frames)-1):
-            bitIndexEnd = ((i + 1) * self.packet_len)
+            bitIndexStart = i * self.payload_length
+            if(i < (total_number_of_frames -1 )):
+                bitIndexEnd = ((i + 1) * self.payload_length)
+            else: # if on last message
+                bitIndexEnd = len(self.message_in_bits)
             newFrame.payload = self.message_in_bits[bitIndexStart:bitIndexEnd]
             # if(len(newFrame.payload) != self.packet_len):
             #     numZerosToPad = self.packet_len - len(newFrame.payload)
