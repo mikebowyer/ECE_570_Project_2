@@ -9,6 +9,22 @@ class Frame:
         self.payload = payload
         self.crc = crc
 
+    def get_frame(self):
+        return self.header + self.counter + self.payload + self.crc
+    
+    def get_frame_bytes(self):
+        frame = self.get_frame()
+        
+        if (len(frame) % 8) != 0:
+            raise "The length of the frame is not divisable by 8 bits without a remainder. More padding necassary"
+
+        frame_bytes_as_ints = []
+        for i in range(0, int(len(frame)/8)-1):
+            byte = frame[i * 4 : i * 8 + 8]
+            byte_val = byte[0] * 128 + byte[1] * 64 + byte[2] * 32 + byte[3] * 16 +byte[4] * 8 + byte[5] * 4 + byte[6] * 2 + byte[7]
+            frame_bytes_as_ints.append(byte_val)
+        return bytes(frame_bytes_as_ints)
+
 class MsgGenerator:
     def __init__(self, filename, packet_length_in_bits):
         # Save passed variables into class variables
@@ -62,8 +78,10 @@ class MsgGenerator:
             
 
     def calc_frame_crc(self, frame_wo_crc, generator):
-        
-        return list([1, 1, 1, 1])
+
+        crc = [1,1,1,1]
+        padding = [0,0,0,0]
+        return padding + crc
 
 
 
@@ -77,3 +95,5 @@ class MsgGenerator:
     def bt2int(self, bt):
         w = 2 ** np.array(range(8))[::-1]
         return np.dot(bt, w)
+
+

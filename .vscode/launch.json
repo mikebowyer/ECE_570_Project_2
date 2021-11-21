@@ -12,12 +12,20 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Python: socket_example",
+            "type": "python",
+            "cwd": "${workspaceRoot}",
+            "request": "launch",
+            "program": "${workspaceFolder}/socket_example.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Python: Project 2",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/proj2.py",
             "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceRoot}",
             "args": [
                 "--port",
                 "4444",
