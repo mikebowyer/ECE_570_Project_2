@@ -1,5 +1,6 @@
 import socket
 import time
+from src.msg_generator import Frame, CRCCalculator
 
 class MsgSender:
     packet_header = [0, 1, 1, 1, 1, 1, 1, 0]
@@ -53,26 +54,32 @@ class MsgSender:
                     print("CRC" + str(frame.crc))
 
             try:
-                recieved_frame = self.send_and_wait_for_packet(sent_frame)
-                print("Recieved Packet Length: " + str(len(recieved_frame)))
+                recieved_bytes = self.send_and_wait_for_packet(sent_frame)
+                print("Recieved Packet Length: " + str(len(recieved_bytes)))
             except:
                 continue
 
             # print("Recieved Packet Length: " + str(len(recieved_frame)))
 
-            if (recieved_frame == sent_frame):
+            recieved_frame = Frame()
+            recieved_frame.createFrameFromBytes(recieved_bytes)
+            recieved_frame_crc = recieved_frame.crc
+            crc_calc = CRCCalculator()
+            recieved_frame_calculated_crc = crc_calc.getCRC(frame = recieved_frame.get_frame_wo_crc(), div = [1, 1, 0, 0, 1])
+
+            if(recieved_frame_crc == recieved_frame_calculated_crc):
                 packets_successfully_sent_count +=1
-                self.received_frames.append(recieved_frame)
-            else:
+                self.received_frames.append(recieved_bytes)
+                print("SUCCESS! Recieved frame correctly, moving to next.")
+            else: 
+                print("FAILURE! Recieved frame incorrectly, Retrying")
                 continue
 
-            # crc_length = len(frame.crc)
-            # if(recieved_packet[-crc_length:] == frame.crc):
-            #     packets_successfully_sent_count +=1
-            # else: 
-            #     continue
+
+
             
 
+    
 
 
 

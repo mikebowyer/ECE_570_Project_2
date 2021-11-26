@@ -3,14 +3,32 @@ import time
 import numpy as np
 
 class Frame:
+
     def __init__(self, header = [], counter = [], payload = [], crc = []):
         self.header = header
         self.counter = counter
         self.payload = payload
         self.crc = crc
+    
+    def createFrameFromBytes(self, bytes):
+        bitstream = []
+        for byte in bytes:
+            byte_in_int_list = [int(i) for i in list(format(byte,'b'))]
+            numZerosToPad = 8 - len(byte_in_int_list)
+            byte_in_int_list = ([0] * (numZerosToPad)) + byte_in_int_list
+            bitstream = bitstream + byte_in_int_list
+
+        self.header = bitstream[0:8]
+        self.counter = bitstream[8:16]
+        self.payload = bitstream[16:-8]
+        self.crc = bitstream[-8:]
+
 
     def get_frame(self):
         return self.header + self.counter + self.payload + self.crc
+
+    def get_frame_wo_crc(self):
+        return self.header + self.counter + self.payload
     
     def get_frame_bytes(self):
         frame = self.get_frame()
@@ -142,7 +160,7 @@ class MsgGenerator:
         for i in range(0, total_number_of_frames):
             print("Generating Message for frame #: " + str(i))
             # Create new frame to add to list of frames
-            newFrame = Frame()
+            newFrame = Frame(header = [], counter = [], payload = [], crc = [])
             newFrame.header = self.header
             newFrame.counter = [int(b) for b in '{:08b}'.format(i)]
 
@@ -171,17 +189,6 @@ class MsgGenerator:
 
             frames.append(newFrame)
         return frames
-
-
-            
-
-    def calc_frame_crc(self, frame_wo_crc, generator):
-        
-        crc = [1,1,1,1]
-        padding = [0,0,0,0]
-        return padding + crc
-
-
 
     def message_in_bytes_to_bits(self, msg):
         bt = []
