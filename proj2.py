@@ -1,7 +1,7 @@
 import socket
 import time
 import numpy as np
-from matplotlib.pyplot import figure, plot, grid
+import matplotlib.pyplot as plt
 import argparse
 from src.send_msg_over_socket import MsgSender
 from src.msg_generator import MsgGenerator
@@ -35,17 +35,32 @@ if __name__ == '__main__':
     # # Establish connection with server
     print("Connecting to Server: " + args.serv_address + ":" +str(int(args.port)))
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    # Send the message and collect stats as we go!
     message_sender = MsgSender(args.serv_address, args.port)
     message_sender.send_msg(msg)
 
+    # Take the raw bits recieved back from the server and recreate the original
     bt = bytes()
     for i, recievedFrame in enumerate(message_sender.received_frames):
         bt = bt + extract_payload_from_bitstream(recievedFrame)
-
     ext = os.path.splitext(args.file_to_send)[-1]
     print(ext)
     with open("Output_file" + ext,'wb') as ofile:
         ofile.write(bt) 
+
+    # Print Metrics!
+    plt.plot(message_sender.latencies, c="g", alpha=0.5)
+    plt.xlabel("Index of frame sent")
+    plt.ylabel("Latency in milliseconds")
+    plt.title("Frame Transmission Latencies")
+    plt.show()
+
+    plt.plot(message_sender.success_rate, c="g", alpha=0.5)
+    plt.xlabel("Index of frame sent")
+    plt.ylabel("Packet Transmission Success Rate")
+    plt.title("Packet Transmission Success Rate Over Time")
+    plt.show()
 
     
     # latency, sucess_or_fail = sendMessageToServer(socket, message, crc)
