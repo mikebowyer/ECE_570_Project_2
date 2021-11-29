@@ -7,6 +7,7 @@ class MsgSender:
 
 
     def __init__(self, server_address, server_port):
+        print("Connecting to Server: " + server_address + ":" +str(int(server_port)))
         # Save server information to member variables
         self.m_server_address = (server_address, server_port)
 

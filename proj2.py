@@ -6,7 +6,7 @@ import argparse
 from src.send_msg_over_socket import MsgSender
 from src.msg_generator import MsgGenerator
 import src.output_creator as output_creator
-import os.path
+
 
 def bt2int(bt):
     w = 2 ** np.array(range(8))[::-1]
@@ -19,8 +19,7 @@ def msg2bt(msg):
             bt.append(int(b))
     return bt
 
-def extract_payload_from_bitstream(bitstream):
-        return bitstream[2:-1]
+
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--port', type=int, default=4444, help='The port of the server you would like to send a message to.')
@@ -35,21 +34,12 @@ if __name__ == '__main__':
     print("Creating message to send from following file: " + str(args.file_to_send))
     msg = MsgGenerator(args.file_to_send, payload_length = 1024)
 
-    # # Establish connection with server
-    print("Connecting to Server: " + args.serv_address + ":" +str(int(args.port)))
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
     # Send the message and collect stats as we go!
     message_sender = MsgSender(args.serv_address, args.port)
     message_sender.send_msg(msg)
 
     # Take the raw bits recieved back from the server and recreate the original
-    bt = bytes()
-    for i, recievedFrame in enumerate(message_sender.received_frames):
-        bt = bt + extract_payload_from_bitstream(recievedFrame)
-    ext = os.path.splitext(args.file_to_send)[-1]
-    print(ext)
-    with open("Output_file" + ext,'wb') as ofile:
-        ofile.write(bt) 
+    output_creator.save_output_file_from_transmission(message_sender, args.file_to_send)
 
+    # Create plots of metrics observed during transmission
     output_creator.create_transmission_metric_plots(message_sender, args.show_plots)
