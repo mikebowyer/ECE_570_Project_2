@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import argparse
 from src.send_msg_over_socket import MsgSender
 from src.msg_generator import MsgGenerator
+import src.output_creator as output_creator
 import os.path
 
 def bt2int(bt):
@@ -49,18 +50,7 @@ if __name__ == '__main__':
     with open("Output_file" + ext,'wb') as ofile:
         ofile.write(bt) 
 
-    # Print Metrics!
-    plt.plot(message_sender.latencies, c="g", alpha=0.5)
-    plt.xlabel("Index of frame sent")
-    plt.ylabel("Latency in milliseconds")
-    plt.title("Frame Transmission Latencies")
-    plt.show()
-
-    plt.plot(message_sender.success_rate, c="g", alpha=0.5)
-    plt.xlabel("Index of frame sent")
-    plt.ylabel("Packet Transmission Success Rate")
-    plt.title("Packet Transmission Success Rate Over Time")
-    plt.show()
+    output_creator.create_transmission_metric_plots(message_sender, True)
 
     
     # latency, sucess_or_fail = sendMessageToServer(socket, message, crc)

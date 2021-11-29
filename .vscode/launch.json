@@ -30,7 +30,9 @@
                 "--port",
                 "4444",
                 "--serv_address",
-                "23.235.207.63"
+                "23.235.207.63",
+                "--file_to_send",
+                "resources/text_message.txt"
             ]
         }
     ]
