@@ -26,6 +26,8 @@ parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--port', type=int, default=4444, help='The port of the server you would like to send a message to.')
 parser.add_argument('--serv_address', type=str, default='23.235.207.63', help='The address of the server you would like to send a message to.')
 parser.add_argument('--file_to_send', type=str, default='resources/umdlogo.jpg', help='The name of the file to send. If unspecified, the default umdlogo image will be used. ')
+parser.add_argument('--show_plots', dest='show_plots', action='store_true')
+
 if __name__ == '__main__':
     args = parser.parse_args()
 
@@ -50,8 +52,4 @@ if __name__ == '__main__':
     with open("Output_file" + ext,'wb') as ofile:
         ofile.write(bt) 
 
-    output_creator.create_transmission_metric_plots(message_sender, True)
-
-    
-    # latency, sucess_or_fail = sendMessageToServer(socket, message, crc)
-    # plot
+    output_creator.create_transmission_metric_plots(message_sender, args.show_plots)
