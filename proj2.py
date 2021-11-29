@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import argparse
 from src.send_msg_over_socket import MsgSender
 from src.msg_generator import MsgGenerator
-import src.output_creator as output_creator
+from src.output_creator import OutputCreator
 
 
 def bt2int(bt):
@@ -39,7 +39,4 @@ if __name__ == '__main__':
     message_sender.send_msg(msg)
 
     # Take the raw bits recieved back from the server and recreate the original
-    output_creator.save_output_file_from_transmission(message_sender, args.file_to_send)
-
-    # Create plots of metrics observed during transmission
-    output_creator.create_transmission_metric_plots(message_sender, args.show_plots)
+    output_created = OutputCreator(message_sender, args.file_to_send, args.show_plots)
