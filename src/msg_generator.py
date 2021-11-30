@@ -1,6 +1,8 @@
 import socket
 import time
 import numpy as np
+import cv2
+import os
 
 class Frame:
 
@@ -128,7 +130,10 @@ class CRCCalculator:
 class MsgGenerator:
     def __init__(self, filename, payload_length):
         # Save passed variables into class variables
-        self.filename = filename
+        if filename == "webcam":
+            self.filename = self.grabAndSaveWebCamImage()
+        else: 
+            self.filename = filename
         self.payload_length = payload_length
         self.header = list([0, 1, 1, 1, 1, 1, 1, 0])
         self.header_len = len(self.header)
@@ -153,7 +158,50 @@ class MsgGenerator:
         print("Generating Message! ")
         self.frames = self.generate_msg(self.total_number_of_frames)
 
+    def createOutputDir(self):
+        # Create new directory for outputs
+        output_dir_exists = os.path.exists("outputs/")
+        if not output_dir_exists:
+            os.makedirs("outputs/")
 
+    def grabAndSaveWebCamImage(self):
+        print("Webcam input selected as source file!")
+        print("Webcam will open and wait for the user to press 'q' to capture an image which will then be sent.")
+
+        # Create Dir where to store image
+        self.createOutputDir()
+        
+        #Capture and show image
+        vid = cv2.VideoCapture(0)
+        vid.set(3,640) #Setting webcam's image width 
+        vid.set(4,320) #Setting webcam' image height
+
+  
+        while(True):
+            
+            # Capture the video frame
+            # by frame
+            ret, frame = vid.read()
+        
+            # Display the resulting frame
+            cv2.imshow('frame', frame)
+            
+            # the 'q' button is set as the
+            # quitting button you may use any
+            # desired button of your choice
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        
+        # Save image
+        original_webcam_img_path = 'outputs/original_webcam_image.png'
+        b = cv2.resize(frame,(160,80),fx=0,fy=0, interpolation = cv2.INTER_CUBIC)
+        cv2.imwrite(original_webcam_img_path, b)
+
+        # Tear down and disconnect from webcam
+        vid.release()
+        cv2.destroyAllWindows()
+
+        return original_webcam_img_path
 
     def generate_msg(self, total_number_of_frames):
         frames = []
