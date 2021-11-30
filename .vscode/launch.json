@@ -5,21 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Latency1",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/latency1.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Python: socket_example",
-            "type": "python",
-            "cwd": "${workspaceRoot}",
-            "request": "launch",
-            "program": "${workspaceFolder}/socket_example.py",
-            "console": "integratedTerminal"
-        },
-        {
             "name": "Python: Project 2",
             "type": "python",
             "request": "launch",
@@ -32,6 +17,7 @@
                 "--serv_address",
                 "23.235.207.63",
                 "--file_to_send",
+                // "webcam"
                 // "resources/bugsbunny1.wav",
                 // "resources/text_message.txt",
                 "resources/umdlogo.jpg",
