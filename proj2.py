@@ -1,24 +1,7 @@
-import socket
-import time
-import numpy as np
-import matplotlib.pyplot as plt
 import argparse
 from src.send_msg_over_socket import MsgSender
 from src.msg_generator import MsgGenerator
 from src.output_creator import OutputCreator
-
-
-def bt2int(bt):
-    w = 2 ** np.array(range(8))[::-1]
-    return np.dot(bt, w)
-
-def msg2bt(msg):
-    bt = []
-    for i in range(len(msg)):
-        for b in msg[i]:
-            bt.append(int(b))
-    return bt
-
 
 
 parser = argparse.ArgumentParser(description='Process some integers.')
