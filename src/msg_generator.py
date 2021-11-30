@@ -3,6 +3,7 @@ import time
 import numpy as np
 import cv2
 import os
+from tqdm import tqdm
 
 class Frame:
 
@@ -155,7 +156,7 @@ class MsgGenerator:
         
         # Generate a list of frames to send
         self.crc_calculator = CRCCalculator()
-        print("Generating Message! ")
+        # print("Generating Message! ")
         self.frames = self.generate_msg(self.total_number_of_frames)
 
     def createOutputDir(self):
@@ -205,8 +206,8 @@ class MsgGenerator:
 
     def generate_msg(self, total_number_of_frames):
         frames = []
-        for i in range(0, total_number_of_frames):
-            print("Generating Message for frame #: " + str(i))
+        for i in tqdm(range(0, total_number_of_frames)):
+            # print("Generating Message for frame #: " + str(i))
             # Create new frame to add to list of frames
             newFrame = Frame(header = [], counter = [], payload = [], crc = [])
             newFrame.header = self.header

@@ -31,12 +31,21 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Create message to send
-    print("Creating message to send from following file: " + str(args.file_to_send))
+    print("------------------------------------------------------------------------")
+    print("------------------ Creating Message To Send From File ------------------")
+    print("------------------------------------------------------------------------")
+    print("Creating message to send from following file: " + str(args.file_to_send) + "\n")
     msg = MsgGenerator(args.file_to_send, payload_length = 1024)
 
     # Send the message and collect stats as we go!
+    print("\n------------------------------------------------------------------------")
+    print("-------------------------- Sending the Message -------------------------")
+    print("------------------------------------------------------------------------")
     message_sender = MsgSender(args.serv_address, args.port)
     message_sender.send_msg(msg)
 
     # Take the raw bits recieved back from the server and recreate the original
+    print("\n------------------------------------------------------------------------")
+    print("----------------- Saving recieved file and metrics ---------------------")
+    print("------------------------------------------------------------------------")
     output_created = OutputCreator(message_sender, args.file_to_send, args.show_plots)
