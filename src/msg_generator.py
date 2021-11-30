@@ -211,7 +211,8 @@ class MsgGenerator:
             # Create new frame to add to list of frames
             newFrame = Frame(header = [], counter = [], payload = [], crc = [])
             newFrame.header = self.header
-            newFrame.counter = [int(b) for b in '{:08b}'.format(i)]
+            counter_mod_255 = i % 255
+            newFrame.counter = [int(b) for b in '{:08b}'.format(counter_mod_255)]
 
             # Stuff payload
             bitIndexStart = i * self.payload_length

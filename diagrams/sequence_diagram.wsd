@@ -1,0 +1,29 @@
+@startuml
+LocalMachine --> LocalMachine: Read Arguments
+LocalMachine --> LocalMachine: Load input file or take webcam image
+LocalMachine --> LocalMachine: Serialize file or image
+LocalMachine --> LocalMachine: Create list of frames to send, includes CRC calculation
+
+...
+
+LocalMachine --> Server: Send Frame N
+Server --> Server: Calculate if error should be injected into response: False
+Server --> LocalMachine: Send Identical Frame Back
+LocalMachine --> LocalMachine: Calculate CRC for recieved frame
+LocalMachine --> LocalMachine: CRC Matches, save result, move to next frame
+
+...
+
+LocalMachine --> Server: Send Frame M
+Server --> Server: Calculate if error should be injected into response: True
+Server --> LocalMachine: Send frame with errors back
+LocalMachine --> LocalMachine: Calculate CRC for recieved frame
+LocalMachine --> LocalMachine: CRC does not match
+LocalMachine --> LocalMachine: Send Frame M Again
+
+...
+
+LocalMachine --> LocalMachine: Deserialized Frames
+LocalMachine --> LocalMachine: Save recieved file to disk
+LocalMachine --> LocalMachine: Plot Metrics for Latency and Transmission Sucess
+@enduml

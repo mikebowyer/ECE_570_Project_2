@@ -21,9 +21,15 @@ class OutputCreator:
             os.makedirs(self.output_path)
 
     def getOutputFileName(self, input_file_name):
-        # Create output file name
-        base_file = os.path.basename(input_file_name)
-        self.output_file_path = self.output_path + "recieved_" + base_file
+        if(input_file_name == "webcam"):
+            self.output_filename = "webcam_image_"
+            self.output_ext = ".png"
+        else:
+            # Create output file name
+            self.output_filename = os.path.splitext(os.path.basename(input_file_name))[0]
+            self.output_ext =  os.path.splitext(os.path.basename(input_file_name))[1]
+        self.output_file_path = self.output_path + "recieved_" + self.output_filename + self.output_ext
+
 
 
     def extract_payload_from_bitstream(self, bitstream):
@@ -60,7 +66,7 @@ class OutputCreator:
         # axs[1].title("Packet Transmission Success Rate Over Time")
 
         # Show and Save Fig
-        fig.savefig(self.output_path + 'transmission_metrics.png')
+        fig.savefig(self.output_path + "transmission_metrics_" + self.output_filename + '.png')
         if show_or_no_show:
             fig.show()
             a=input()
