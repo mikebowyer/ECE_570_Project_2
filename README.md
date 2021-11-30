@@ -12,7 +12,7 @@ In order to run this python program you must setup a similar environment in whic
 python3 -m pip install -r env/requirements.txt
 ```
 
-## Demonstration and library usage
+## Usage
 
 ```bash
 $ python proj2.py --help
@@ -29,6 +29,7 @@ optional arguments:
                         The name of the file to send. Use "webcam" if you would like to transmit an image from your webcam. If unspecified, the default umdlogo image will be used.
   --show_plots          Determines if plots are shown live when running the program.
 `````
+## Demonstration
 ![proj2.py ](ECE570_Proj_2_Demo.gif)
 
 ## Contributing
