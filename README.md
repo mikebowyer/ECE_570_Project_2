@@ -33,11 +33,11 @@ optional arguments:
 ![proj2.py](ECE570_Proj_2_Demo.gif)
 
 ## Sequence Diagram
-![Sequence Diagram](diagrams\sequence_diagram.png)
+![Sequence Diagram](diagrams/sequence_diagram.png)
 ## Tranmitted Frame Structure
-![Frame Configuration](diagrams\Frame_Configuration.png)
+![Frame Configuration](diagrams/Frame_Configuration.png)
 ## Report
-The final report submitted for this work is included in the report: [ECE570_Fall2021_Bowyer_Project2_Report.pdf])(ECE570_Fall2021_Bowyer_Project2_Report.pdf)
+The final report submitted for this work is included in the report: [ECE570_Fall2021_Bowyer_Project2_Report.pdf](ECE570_Fall2021_Bowyer_Project2_Report.pdf)
 ## Contributing
 Michael Bowyer (mbowyer@umich.edu)
 
