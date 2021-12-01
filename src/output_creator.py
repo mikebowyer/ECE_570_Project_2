@@ -53,14 +53,14 @@ class OutputCreator:
 
         # Plot Latency
         axs[0].plot(message_sender.latencies, c="g", alpha=0.5)
-        axs[0].set(xlabel='Index of frame sent', ylabel='Latency in milliseconds', title='Frame Transmission Latencies')
+        axs[0].set(xlabel='Frame Transmission Attempt Number', ylabel='Latency in milliseconds', title='Frame Transmission Latencies')
         # axs[0].xlabel("Index of frame sent")
         # axs[0].ylabel("Latency in milliseconds")
         # axs[0].title("Frame Transmission Latencies")
 
         # Plot Transmission Success Rate
         axs[1].plot(message_sender.success_rate, c="g", alpha=0.5)
-        axs[1].set(xlabel='Index of frame sent', ylabel='Packet Transmission Success Rate', title='Packet Transmission Success Rate Over Time')
+        axs[1].set(xlabel='Frame Transmission Attempt Number', ylabel='Packet Transmission Success Rate', title='Packet Transmission Success Rates')
         # axs[1].xlabel("Index of frame sent")
         # axs[1].ylabel("Packet Transmission Success Rate")
         # axs[1].title("Packet Transmission Success Rate Over Time")

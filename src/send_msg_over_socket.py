@@ -75,7 +75,7 @@ class MsgSender:
                 crc_calc = CRCCalculator()
                 recieved_frame_calculated_crc = crc_calc.getCRC(frame = recieved_frame.get_frame_wo_crc(), div = [1, 1, 0, 0, 1])
 
-                if(recieved_frame_crc == recieved_frame_calculated_crc):
+                if (recieved_frame_crc == recieved_frame_calculated_crc) and (recieved_frame.counter == frame.counter):
                     # print("SUCCESS! Recieved frame correctly, moving to next.")
                     packets_successfully_sent_count +=1
                     self.received_frames.append(recieved_bytes)

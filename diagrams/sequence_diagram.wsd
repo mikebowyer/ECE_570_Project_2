@@ -19,7 +19,7 @@ Server --> Server: Calculate if error should be injected into response: True
 Server --> LocalMachine: Send frame with errors back
 LocalMachine --> LocalMachine: Calculate CRC for recieved frame
 LocalMachine --> LocalMachine: CRC does not match
-LocalMachine --> LocalMachine: Send Frame M Again
+LocalMachine --> Server: Send Frame M Again
 
 ...
 
